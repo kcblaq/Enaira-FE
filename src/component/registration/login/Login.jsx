@@ -1,7 +1,7 @@
 import React from 'react'
 import { Formik } from "formik"
 import * as yup from 'yup';
-import {Link } from "react-router-dom"
+import {Link, useNavigate } from "react-router-dom"
 import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai"
 
 const validate = yup.object().shape({
@@ -9,6 +9,7 @@ const validate = yup.object().shape({
     password: yup.string().required()
 })
 export default function Login() {
+    const navigate = useNavigate()
   return (
 <div className='w-full p-4'>
 <div className='flex justify-between w-full text-2xl text-purple-500 mt-2'>
@@ -22,7 +23,7 @@ export default function Login() {
                 password:''
             }}
             validationSchema = {validate}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={(values) => navigate('/dashboard')}
             >
                 {({ values, touched, handleSubmit, handleBlur, errors, handleChange}) => (
                     <form onSubmit={handleSubmit}>
