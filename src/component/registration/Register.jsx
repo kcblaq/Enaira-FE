@@ -13,6 +13,9 @@ const validate = yup.object().shape({
     password: yup.string().required().min(7),
     confirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
 })
+const countries = [
+    'Nigeria','Ghana', 'Mali','South Africa', 'Kenya', 'Egypy', 'Rwanda'
+]
 
 export default function Register() {
     const [pass, setPass ] = useState('password')
@@ -95,15 +98,11 @@ export default function Register() {
 
                         <div className='flex flex-col mt-4'>
                             <label htmlFor='country' className='font-medium text-gray-900 dark:text-gray-300'> Country</label>
-                            <input
-                                id='country'
-                                name='country'
-                                type='text'
-                                onChange={handleChange}
-                                onBlur={handleBlur}
-                                value={values.country}
-                                className=' border-2 rounded-lg w-full p-2'
-                            />
+                            <select id='country' name='country' className=' border-2 rounded-lg w-full p-2' >
+                                {countries.map((item,i) =>(
+                                    <option key={i} value={item}>{item} </option>
+                                ))}
+                            </select>
                             {errors.country && touched.country ? <div className='text-red-500'> {errors.country}</div> : null}
                         </div>
 
