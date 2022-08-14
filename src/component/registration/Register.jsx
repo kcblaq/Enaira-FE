@@ -14,7 +14,7 @@ const validate = yup.object().shape({
     confirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
 })
 const countries = [
-    'Nigeria','Ghana', 'Mali','South Africa', 'Kenya', 'Egypy', 'Rwanda'
+    'Nigeria','Ghana', 'Mali','South Africa', 'Kenya', 'Egypt', 'Rwanda'
 ]
 
 export default function Register() {
