@@ -12,6 +12,7 @@ const validate = yup.object().shape({
     phone: yup.number().required(),
     password: yup.string().required().min(7),
     confirm: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+    // confirm: yup.string().required()
 })
 const countries = [
     'Nigeria','Ghana', 'Mali','South Africa', 'Kenya', 'Egypy', 'Rwanda'
@@ -21,22 +22,31 @@ export default function Register() {
     const [pass, setPass ] = useState('password')
     const [confirm, setConfirm ] = useState('password')
   return (
-<div className='w-full p-4'>
-<div className='flex justify-between w-full text-2xl text-purple-500 mt-2'>
-                <Link to="/"> <AiOutlineLogout /></Link>
-                <AiOutlineMenu />
-            </div>
-            <h2 className='mt-10 font-bold text-center'> Login </h2>
+<div className='w-full p-4 '>
+            <h2 className='mt-10 font-bold text-center'> Register </h2>
             <Formik 
             initialValues= {{
                 firstName:'',
                 lastName:'',
                 email:'',
+                country:'',
                 phone:'',
                 password:'',
+                confirm:''
             }}
             validationSchema = {validate}
-            onSubmit={(values) => console.log(values)}
+            onSubmit={async (values) => {
+              let res = await fetch("http://localhost:5000/api/v1/users/signup", {
+            //    let res = await fetch("https://enaira-be.herokuapp.com/api/v1/users/signup", {
+                    method:'POST',
+                    headers: {"Content-Type": "application/json"},
+                    body: JSON.stringify(values),
+                    mode: 'no-cors'
+                })
+                if(res) {alert(JSON.stringify(values))} else {alert('Failed')}
+            }
+            
+        }
             >
                 {({ values, touched, handleSubmit, handleBlur, errors, handleChange}) => (
                     <form onSubmit={handleSubmit}>
@@ -98,11 +108,20 @@ export default function Register() {
 
                         <div className='flex flex-col mt-4'>
                             <label htmlFor='country' className='font-medium text-gray-900 dark:text-gray-300'> Country</label>
-                            <select id='country' name='country' className=' border-2 rounded-lg w-full p-2' >
+                            {/* <select id='country' name='country' className=' border-2 rounded-lg w-full p-2' >
                                 {countries.map((item,i) =>(
-                                    <option key={i} value={item}>{item} </option>
+                                    <option key={i} value={values.country}>{item} </option>
                                 ))}
-                            </select>
+                            </select> */}
+                            <input
+                                id='country'
+                                name='country'
+                                type='text'
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                value={values.country}
+                                className=' border-2 rounded-lg w-full p-2'
+                            />
                             {errors.country && touched.country ? <div className='text-red-500'> {errors.country}</div> : null}
                         </div>
 

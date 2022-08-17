@@ -2,7 +2,9 @@ import React from 'react'
 import { Formik } from "formik"
 import * as yup from 'yup';
 import {Link, useNavigate } from "react-router-dom"
-import { AiOutlineLogout, AiOutlineMenu } from "react-icons/ai"
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
 
 const validate = yup.object().shape({
     email: yup.string().email().required(),
@@ -10,12 +12,13 @@ const validate = yup.object().shape({
 })
 export default function Login() {
     const navigate = useNavigate()
+    const notify = ()=> toast('Logged in')
   return (
 <div className='w-full p-4'>
-<div className='flex justify-between w-full text-2xl text-purple-500 mt-2'>
+{/* <div className='flex justify-between w-full text-2xl text-purple-500 mt-2'>
                 <Link to="/"> <AiOutlineLogout /></Link>
                 <AiOutlineMenu />
-            </div>
+            </div> */}
             <h2 className='mt-10 font-bold text-center'> Login </h2>
             <Formik 
             initialValues= {{
